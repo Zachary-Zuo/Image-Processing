@@ -25,3 +25,18 @@ void MainWindow::on_inputPushButton_pressed()
         ui->inputLineEdit->setText(fileName);
     }
 }
+
+void MainWindow::on_outputPushButton_pressed()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        "Select Output Image",
+        QDir::currentPath(),
+        "*.jpg;;*.png;;*.bmp");
+    if (!fileName.isEmpty())
+    {
+        ui->outputLineEdit->setText(fileName);
+        cv::Mat inImg, outImg;
+        inImg = cv::imread(ui->inputLineEdit->text().toStdString());
+        cv::imshow("image",inImg);
+    }
+}
