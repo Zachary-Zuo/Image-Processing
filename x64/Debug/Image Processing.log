@@ -1,9 +1,5 @@
-﻿  uic ImageProcessing.ui
-  rcc ImageProcessing.qrc
-  moc ImageProcessing.h
-   RCC: Warning: No resources in 'E:\Codes\Image Processing\Image Processing\ImageProcessing.qrc'.
-  ImageProcessing.cpp
-  main.cpp
+﻿  main.cpp
+  mainwindow.cpp
   qrc_ImageProcessing.cpp
-  moc_ImageProcessing.cpp
+  moc_mainwindow.cpp
   Image Processing.vcxproj -> E:\Codes\Image Processing\Image Processing\x64\Debug\Image Processing.exe

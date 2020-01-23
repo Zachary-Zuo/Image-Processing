@@ -90,17 +90,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ImageProcessing.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="ImageProcessing.ui" />
+    <QtUic Include="mainwindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ImageProcessing.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="mainwindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
