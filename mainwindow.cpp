@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
@@ -40,3 +41,47 @@ void MainWindow::on_outputPushButton_pressed()
         cv::imshow("image",inImg);
     }
 }
+
+void MainWindow::saveSettings()
+{
+    QSettings settings("Packt",
+        "Image Processing",
+        this);
+    settings.setValue("inputLineEdit",
+        ui->inputLineEdit->text()
+    );
+    settings.setValue("outputLineEdit",
+        ui->outputLineEdit->text()
+    );
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings settings("Packt",
+        "Image Processing",
+        this);
+    ui->inputLineEdit->setText(settings.value("inputLineEdit",
+        "").toString());
+    ui->outputLineEdit->setText(settings.value("outputLineEdit",
+        "").toString());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    int result = QMessageBox::warning(this,
+        "Exit",
+        "Are you sure you want to close this program?",
+        QMessageBox::Yes,
+        QMessageBox::No);
+    if (result == QMessageBox::Yes)
+    {
+        saveSettings();
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+

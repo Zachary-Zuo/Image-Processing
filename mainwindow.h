@@ -5,6 +5,9 @@
 #include <qfiledialog.h>
 #include <qdir.h>
 #include <qfile.h>
+#include <qmessagebox.h>
+#include <qevent.h>
+#include <qsettings.h>
 #include <opencv2/opencv.hpp>
 
 QT_BEGIN_NAMESPACE
@@ -26,5 +29,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    void loadSettings();
+    void saveSettings();
+
+
+protected:
+    void closeEvent(QCloseEvent* event);
 };
 #endif // MAINWINDOW_H
