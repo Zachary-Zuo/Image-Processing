@@ -28,9 +28,12 @@ private slots:
 
     //void on_outputPushButton_pressed();
 
+    void on_Open_triggered();
+
 private:
     Ui::MainWindow *ui;
     void iniUI();
+    cv::Mat inputImage;
     //void loadSettings();
     //void saveSettings();
 

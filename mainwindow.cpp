@@ -96,3 +96,28 @@ MainWindow::~MainWindow()
 //}
 
 
+
+void MainWindow::on_Open_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        "Select Output Image",
+        QDir::currentPath(),
+        "*.jpg;;*.png;;*.bmp");
+    if (!fileName.isEmpty())
+    {
+        inputImage = cv::imread(fileName.toStdString());
+        //cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
+        ui->label->setFixedWidth(inputImage.cols);
+        ui->label->setFixedHeight(inputImage.rows);
+
+        QImage image(inputImage.data,
+            inputImage.cols,
+            inputImage.rows,
+            inputImage.step,
+            QImage::Format_RGB888);
+        QSize picSize(ui->label->height(),ui->label->width());
+        QPixmap outputQImage = QPixmap::fromImage(image.rgbSwapped()).scaled(picSize, Qt::KeepAspectRatio);
+        ui->label->setPixmap(outputQImage);
+        
+    }
+}
