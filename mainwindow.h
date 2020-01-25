@@ -9,6 +9,7 @@
 #include <qevent.h>
 #include <qsettings.h>
 #include <opencv2/opencv.hpp>
+#include <QTextCodec>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,10 +31,17 @@ private slots:
 
     void on_Open_triggered();
 
+    void on_histogramRadioButton_pressed();
+
 private:
     Ui::MainWindow *ui;
     void iniUI();
     cv::Mat inputImage;
+    void displayImage(QLabel *outputLabel, const cv::Mat& image);
+    void displayImageAndLabel(QLabel* outputLabel,QLabel* outputExplainLabel,const cv::Mat& image,const char *text);
+    cv::Mat openImage(cv::Mat& image);
+    QTextCodec* codec = QTextCodec::codecForName("GBK");
+
     //void loadSettings();
     //void saveSettings();
 
