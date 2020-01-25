@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ImageProcessing.h"
 
@@ -111,16 +111,16 @@ void MainWindow::displayImage(QLabel *outputLabel, const cv::Mat& image)
     outputLabel->setPixmap(outputQImage);
 }
 
-void MainWindow::displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const char* text)
+void MainWindow::displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const QString &text)
 {
     displayImage(outputLabel, image);
-    outputExplainLabel->setText(codec->toUnicode(text));
+    outputExplainLabel->setText(text);
 }
 
 cv::Mat MainWindow::openImage(cv::Mat& image)
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        "Select Output Image",
+        "Select the Image",
         QDir::currentPath(),
         "*.jpg;;*.png;;*.bmp");
     if (!fileName.isEmpty())
@@ -134,7 +134,7 @@ void MainWindow::on_Open_triggered()
 {
     if (!openImage(inputImage).empty())
     {
-        displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, "ԭͼ");
+        displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, codec->toUnicode("原图"));
     }
 }
 
@@ -144,16 +144,16 @@ void MainWindow::on_histogramRadioButton_pressed()
     {
         int result = QMessageBox::warning(this,
                     "Warning",
-                    codec->toUnicode("����δ��ͼƬ���Ƿ��ȴ���Ҫ������ԭʼͼƬ��"),
+                    codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
                     QMessageBox::Yes,
                     QMessageBox::No);
         if (result == QMessageBox::Yes)
         {
             if (!openImage(inputImage).empty())
             {
-                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, "ԭͼ");
-                cv::Mat outputImage = getImageOfHistogram(inputImage);
-                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel, outputImage, "��ͨ��ɫ��ֱ��ͼ");
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, codec->toUnicode("原图"));
+                outputImage = getImageOfHistogram(inputImage);
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel, outputImage, codec->toUnicode("直方图"));
             }
         }
     }
@@ -161,5 +161,25 @@ void MainWindow::on_histogramRadioButton_pressed()
     {
         cv::Mat outputImage = getImageOfHistogram(inputImage);
         displayImage(ui->singleOutputLabel, outputImage);
+    }
+}
+
+void MainWindow::on_Save_triggered()
+{
+    if (outputImage.empty())
+    {
+        QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还处理过图片，请先处理图片"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+    }
+    else
+    {
+        QString fileName = QFileDialog::getSaveFileName(this,
+            "Save the Image",
+            QDir::currentPath(),
+            "*.jpg;;*.png;;*.bmp");
+        cv::imwrite(fileName.toStdString(), outputImage);
     }
 }

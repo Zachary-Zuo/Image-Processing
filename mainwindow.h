@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -33,12 +33,15 @@ private slots:
 
     void on_histogramRadioButton_pressed();
 
+    void on_Save_triggered();
+
 private:
     Ui::MainWindow *ui;
     void iniUI();
     cv::Mat inputImage;
+    cv::Mat outputImage;
     void displayImage(QLabel *outputLabel, const cv::Mat& image);
-    void displayImageAndLabel(QLabel* outputLabel,QLabel* outputExplainLabel,const cv::Mat& image,const char *text);
+    void displayImageAndLabel(QLabel* outputLabel,QLabel* outputExplainLabel,const cv::Mat& image,const QString &text);
     cv::Mat openImage(cv::Mat& image);
     QTextCodec* codec = QTextCodec::codecForName("GBK");
 

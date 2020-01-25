@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ImageProcessing.h"
 #include <QtWidgets/QApplication>
 #include <QTextCodec>
