@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ImageProcessing.h"
 
 void MainWindow::iniUI()
 {
@@ -106,7 +107,7 @@ void MainWindow::on_Open_triggered()
     if (!fileName.isEmpty())
     {
         inputImage = cv::imread(fileName.toStdString());
-        //cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
+        inputImage = getImageOfHistogram(inputImage);
         ui->label->setFixedWidth(inputImage.cols);
         ui->label->setFixedHeight(inputImage.rows);
 
