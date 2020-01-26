@@ -35,14 +35,21 @@ private slots:
 
     void on_Save_triggered();
 
+    void on_edrodeRadioButton_pressed();
+
+    void on_dilateRadioButton_pressed();
+
+    void on_restorePushButton_pressed();
+
 private:
     Ui::MainWindow *ui;
     void iniUI();
     cv::Mat inputImage;
     cv::Mat outputImage;
+    cv::Mat currentImage;
     void displayImage(QLabel *outputLabel, const cv::Mat& image);
     void displayImageAndLabel(QLabel* outputLabel,QLabel* outputExplainLabel,const cv::Mat& image,const QString &text);
-    cv::Mat openImage(cv::Mat& image);
+    cv::Mat openImage();
     QTextCodec* codec = QTextCodec::codecForName("GBK");
 
     //void loadSettings();

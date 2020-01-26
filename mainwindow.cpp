@@ -5,7 +5,10 @@
 void MainWindow::iniUI()
 {
     setCentralWidget(ui->tabWidget);
-
+    QVBoxLayout* pageVLayout = new QVBoxLayout;
+    pageVLayout->addWidget(ui->grayscalePushButton);
+    pageVLayout->addWidget(ui->radioButton);
+    ui->page->setLayout(pageVLayout);
 }
 
 
@@ -106,7 +109,7 @@ void MainWindow::displayImage(QLabel *outputLabel, const cv::Mat& image)
         image.rows,
         image.step,
         QImage::Format_RGB888);
-    QSize picSize(outputLabel->height(), outputLabel->width());
+    QSize picSize(outputLabel->width(),outputLabel->height());
     QPixmap outputQImage = QPixmap::fromImage(qimage.rgbSwapped()).scaled(picSize, Qt::KeepAspectRatio);
     outputLabel->setPixmap(outputQImage);
 }
@@ -117,7 +120,7 @@ void MainWindow::displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplain
     outputExplainLabel->setText(text);
 }
 
-cv::Mat MainWindow::openImage(cv::Mat& image)
+cv::Mat MainWindow::openImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
         "Select the Image",
@@ -125,22 +128,44 @@ cv::Mat MainWindow::openImage(cv::Mat& image)
         "*.jpg;;*.png;;*.bmp");
     if (!fileName.isEmpty())
     {
-        image = cv::imread(fileName.toStdString());
+        cv::Mat image = cv::imread(fileName.toStdString());
         return image;
+    }
+    else 
+    {
+        return cv::Mat();
     }
 }
 
 void MainWindow::on_Open_triggered()
 {
-    if (!openImage(inputImage).empty())
+    inputImage = openImage();
+    if (!inputImage.empty())
     {
-        displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, codec->toUnicode("原图"));
+        displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, 
+            inputImage, codec->toUnicode("原图"));
     }
 }
 
 void MainWindow::on_histogramRadioButton_pressed()
 {
-    if (inputImage.empty())
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+        
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (currentImage.empty())
     {
         int result = QMessageBox::warning(this,
                     "Warning",
@@ -149,18 +174,25 @@ void MainWindow::on_histogramRadioButton_pressed()
                     QMessageBox::No);
         if (result == QMessageBox::Yes)
         {
-            if (!openImage(inputImage).empty())
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
             {
-                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, inputImage, codec->toUnicode("原图"));
-                outputImage = getImageOfHistogram(inputImage);
-                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel, outputImage, codec->toUnicode("直方图"));
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel, 
+                    inputImage, codec->toUnicode("原图"));
+                outputImage = getImageOfHistogram(currentImage);
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel, 
+                    outputImage, codec->toUnicode("直方图"));
             }
+            ui->histogramRadioButton->setChecked(true);
         }
+        
     }
     else
     {
-        cv::Mat outputImage = getImageOfHistogram(inputImage);
-        displayImage(ui->singleOutputLabel, outputImage);
+        outputImage = getImageOfHistogram(currentImage);
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("直方图"));
     }
 }
 
@@ -182,4 +214,114 @@ void MainWindow::on_Save_triggered()
             "*.jpg;;*.png;;*.bmp");
         cv::imwrite(fileName.toStdString(), outputImage);
     }
+}
+void MainWindow::on_edrodeRadioButton_pressed()
+{
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (currentImage.empty())
+    {
+        int result = QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+        if (result == QMessageBox::Yes)
+        {
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
+            {
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+                    inputImage, codec->toUnicode("原图"));
+                cv::erode(currentImage, outputImage, cv::Mat());
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+                    outputImage, codec->toUnicode("腐蚀图像"));
+            }
+            ui->histogramRadioButton->setChecked(true);
+        }
+    }
+    else
+    {
+        cv::erode(currentImage, outputImage, cv::Mat());
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("腐蚀图像"));
+    }
+}
+
+void MainWindow::on_dilateRadioButton_pressed()
+{
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (currentImage.empty())
+    {
+        int result = QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+        if (result == QMessageBox::Yes)
+        {
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
+            {
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+                    inputImage, codec->toUnicode("原图"));
+                cv::dilate(currentImage, outputImage, cv::Mat());
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+                    outputImage, codec->toUnicode("膨胀图像"));
+            }
+            ui->histogramRadioButton->setChecked(true);
+        }
+
+    }
+    else
+    {
+        cv::dilate(currentImage, outputImage, cv::Mat());
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("膨胀图像"));
+    }
+}
+
+void MainWindow::on_restorePushButton_pressed()
+{
+    currentImage = inputImage;
+    outputImage = cv::Mat();
+    displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+        inputImage, codec->toUnicode("原图"));
+    ui->histogramRadioButton->setCheckable(false);
+    ui->histogramRadioButton->setCheckable(true);
+    ui->edrodeRadioButton->setCheckable(false);
+    ui->edrodeRadioButton->setCheckable(true);
+    ui->dilateRadioButton->setCheckable(false);
+    ui->dilateRadioButton->setCheckable(true);
 }

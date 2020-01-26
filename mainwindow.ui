@@ -67,41 +67,49 @@
           </rect>
          </property>
          <attribute name="label">
-          <string>简单</string>
+          <string>快速图像处理</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QGroupBox" name="verticalGroupBox">
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QRadioButton" name="histogramRadioButton">
-               <property name="text">
-                <string>生成直方图</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton">
-               <property name="text">
-                <string>RadioButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_4">
-               <property name="text">
-                <string>RadioButton</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_3">
-               <property name="text">
-                <string>RadioButton</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <widget class="QRadioButton" name="histogramRadioButton">
+            <property name="text">
+             <string>生成直方图</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="edrodeRadioButton">
+            <property name="text">
+             <string>腐蚀图像</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="dilateRadioButton">
+            <property name="text">
+             <string>膨胀图像</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="restorePushButton">
+            <property name="text">
+             <string>恢复原图</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>RadioButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>PushButton</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -116,8 +124,34 @@
           </rect>
          </property>
          <attribute name="label">
-          <string>页</string>
+          <string>灰度图像处理</string>
          </attribute>
+         <widget class="QPushButton" name="grayscalePushButton">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>40</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>灰度化</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>90</y>
+            <width>89</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>RadioButton</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -317,7 +351,14 @@
     <addaction name="Open"/>
     <addaction name="Save"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="Iterative"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="Open">
@@ -340,6 +381,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="Iterative">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>迭代处理</string>
    </property>
   </action>
  </widget>
