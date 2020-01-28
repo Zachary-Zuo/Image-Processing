@@ -17,55 +17,55 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+	MainWindow(QWidget* parent = nullptr);
+	~MainWindow();
 
 
 private slots:
-    //void on_inputPushButton_pressed();
+	//void on_inputPushButton_pressed();
 
-    //void on_outputPushButton_pressed();
+	//void on_outputPushButton_pressed();
 
-    void on_Open_triggered();
+	void on_Open_triggered();
 
-    void on_histogramRadioButton_pressed();
+	void on_histogramRadioButton_pressed();
 
-    void on_Save_triggered();
+	void on_Save_triggered();
 
-    void on_edrodeRadioButton_pressed();
+	void on_edrodeRadioButton_pressed();
 
-    void on_dilateRadioButton_pressed();
+	void on_dilateRadioButton_pressed();
 
-    void on_restorePushButton_pressed();
+	void on_restorePushButton_pressed();
 
-    void on_colorInversionRadioButton_pressed();
+	void on_colorInversionRadioButton_pressed();
 
-    void on_loseColorRadioButton_pressed();
+	void on_loseColorRadioButton_pressed();
 
-    void on_GrayscaleRadioButton_pressed();
+	void on_GrayscaleRadioButton_pressed();
 
 private:
-    Ui::MainWindow *ui;
-    void iniUI();
-    cv::Mat inputImage;
-    cv::Mat outputImage;
-    cv::Mat currentImage;
-    cv::Mat inputGrayImage;
-    void displayImage(QLabel* outputLabel, const QImage& image);
-    void displayGrayImage(QLabel* outputLabel, const cv::Mat& image);
-    void displayColorImage(QLabel *outputLabel, const cv::Mat& image);
-    void displayImageAndLabel(QLabel* outputLabel,QLabel* outputExplainLabel,const cv::Mat& image,const QString &text);
-    cv::Mat openImage();
-    QTextCodec* codec = QTextCodec::codecForName("GBK");
+	Ui::MainWindow* ui;
+	void iniUI();
+	cv::Mat inputImage;
+	cv::Mat outputImage;
+	cv::Mat currentImage;
+	cv::Mat inputGrayImage;
+	void displayImage(QLabel* outputLabel, const QImage& image);
+	void displayGrayImage(QLabel* outputLabel, const cv::Mat& image);
+	void displayColorImage(QLabel* outputLabel, const cv::Mat& image);
+	void displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const QString& text);
+	cv::Mat openImage();
+	QTextCodec* codec = QTextCodec::codecForName("GBK");
 
-    //void loadSettings();
-    //void saveSettings();
+	//void loadSettings();
+	//void saveSettings();
 
 
 protected:
-    //void closeEvent(QCloseEvent* event);
+	//void closeEvent(QCloseEvent* event);
 };
 #endif // MAINWINDOW_H
