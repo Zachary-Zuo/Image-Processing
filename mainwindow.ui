@@ -63,13 +63,20 @@
            <x>0</x>
            <y>0</y>
            <width>200</width>
-           <height>306</height>
+           <height>280</height>
           </rect>
          </property>
          <attribute name="label">
           <string>快速图像处理</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QCheckBox" name="grayscaleCheckBox">
+            <property name="text">
+             <string>灰度化</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QRadioButton" name="histogramRadioButton">
             <property name="text">
@@ -92,23 +99,51 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="restorePushButton">
+           <widget class="QRadioButton" name="colorInversionRadioButton">
             <property name="text">
-             <string>恢复原图</string>
+             <string>颜色反转</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QRadioButton" name="loseColorRadioButton">
+            <property name="text">
+             <string>减色</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_2">
             <property name="text">
              <string>RadioButton</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QRadioButton" name="radioButton_3">
             <property name="text">
-             <string>PushButton</string>
+             <string>RadioButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_4">
+            <property name="text">
+             <string>RadioButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_5">
+            <property name="text">
+             <string>RadioButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="restorePushButton">
+            <property name="text">
+             <string>恢复原图</string>
             </property>
            </widget>
           </item>
@@ -120,7 +155,7 @@
            <x>0</x>
            <y>0</y>
            <width>200</width>
-           <height>306</height>
+           <height>280</height>
           </rect>
          </property>
          <attribute name="label">
@@ -152,6 +187,11 @@
            <string>RadioButton</string>
           </property>
          </widget>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <attribute name="label">
+          <string>精细图像处理</string>
+         </attribute>
         </widget>
        </widget>
       </item>

@@ -8,6 +8,7 @@
 #include <vector>
 
 cv::Mat getImageOfHistogram(const cv::Mat& image);
+void colorReduce(const cv::Mat& inputImage, cv::Mat& outputImage, int div = 64);
 
 #endif // MAINWINDOW_H
 

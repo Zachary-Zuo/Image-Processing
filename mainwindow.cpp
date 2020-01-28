@@ -165,6 +165,10 @@ void MainWindow::on_histogramRadioButton_pressed()
     {
         currentImage = inputImage;
     }
+    if (ui->grayscaleCheckBox->isChecked())
+    {
+        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+    }
     if (currentImage.empty())
     {
         int result = QMessageBox::warning(this,
@@ -233,6 +237,10 @@ void MainWindow::on_edrodeRadioButton_pressed()
     {
         currentImage = inputImage;
     }
+    if (ui->grayscaleCheckBox->isChecked())
+    {
+        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+    }
     if (currentImage.empty())
     {
         int result = QMessageBox::warning(this,
@@ -252,7 +260,7 @@ void MainWindow::on_edrodeRadioButton_pressed()
                 displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
                     outputImage, codec->toUnicode("腐蚀图像"));
             }
-            ui->histogramRadioButton->setChecked(true);
+            ui->edrodeRadioButton->setChecked(true);
         }
     }
     else
@@ -264,6 +272,78 @@ void MainWindow::on_edrodeRadioButton_pressed()
 }
 
 void MainWindow::on_dilateRadioButton_pressed()
+{
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (ui->grayscaleCheckBox->isChecked())
+    {
+        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+    }
+    if (currentImage.empty())
+    {
+        int result = QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+        if (result == QMessageBox::Yes)
+        {
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
+            {
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+                    inputImage, codec->toUnicode("原图"));
+                cv::dilate(currentImage, outputImage, cv::Mat());
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+                    outputImage, codec->toUnicode("膨胀图像"));
+            }
+            ui->dilateRadioButton->setChecked(true);
+        }
+
+    }
+    else
+    {
+        cv::dilate(currentImage, outputImage, cv::Mat());
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("膨胀图像"));
+    }
+}
+
+void MainWindow::on_restorePushButton_pressed()
+{
+    currentImage = inputImage;
+    outputImage = cv::Mat();
+    displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+        inputImage, codec->toUnicode("原图"));
+    ui->histogramRadioButton->setCheckable(false);
+    ui->histogramRadioButton->setCheckable(true);
+    ui->edrodeRadioButton->setCheckable(false);
+    ui->edrodeRadioButton->setCheckable(true);
+    ui->dilateRadioButton->setCheckable(false);
+    ui->dilateRadioButton->setCheckable(true);
+}
+
+void MainWindow::on_colorInversionRadioButton_pressed()
+{
+
+}
+
+void MainWindow::on_loseColorRadioButton_pressed()
 {
     if (ui->Iterative->isChecked())
     {
@@ -296,32 +376,35 @@ void MainWindow::on_dilateRadioButton_pressed()
             {
                 displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
                     inputImage, codec->toUnicode("原图"));
-                cv::dilate(currentImage, outputImage, cv::Mat());
+                colorReduce(currentImage, outputImage);
                 displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-                    outputImage, codec->toUnicode("膨胀图像"));
+                    outputImage, codec->toUnicode("减色图像"));
             }
-            ui->histogramRadioButton->setChecked(true);
+            ui->loseColorRadioButton->setChecked(true);
         }
 
     }
     else
     {
-        cv::dilate(currentImage, outputImage, cv::Mat());
+        colorReduce(currentImage, outputImage);
         displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-            outputImage, codec->toUnicode("膨胀图像"));
+            outputImage, codec->toUnicode("减色图像"));
     }
 }
 
-void MainWindow::on_restorePushButton_pressed()
+void MainWindow::on_grayscaleCheckBox_stateChanged(int arg1)
 {
-    currentImage = inputImage;
-    outputImage = cv::Mat();
-    displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-        inputImage, codec->toUnicode("原图"));
-    ui->histogramRadioButton->setCheckable(false);
-    ui->histogramRadioButton->setCheckable(true);
-    ui->edrodeRadioButton->setCheckable(false);
-    ui->edrodeRadioButton->setCheckable(true);
-    ui->dilateRadioButton->setCheckable(false);
-    ui->dilateRadioButton->setCheckable(true);
+    //if (ui->grayscaleCheckBox->isChecked())
+    //{
+    //    cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+    //    cv::cvtColor(outputImage, outputImage, CV_BGR2GRAY);
+    //    displayImage(ui->singleOutputLabel, outputImage);
+    //    cv::cvtColor(srcImage, dstImage, cv::COLOR_BGR2GRAY);
+    //    //cv::imshow("test",dstImage);
+    //    img = QImage((const unsigned char*)(dstImage.data), dstImage.cols, dstImage.rows, dstImage.cols * dstImage.channels(),
+    //        QImage::Format_Grayscale8);
+
+    //}
 }
+
+

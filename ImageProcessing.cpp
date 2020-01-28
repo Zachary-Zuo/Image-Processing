@@ -103,3 +103,13 @@ cv::Mat getImageOfHistogram(const cv::Mat &image) {
 
     return histImage;
 }
+
+void colorReduce(const cv::Mat& inputImage,cv::Mat& outputImage, int div)
+{
+    cv::Mat lookup(1, 256, CV_8U);
+    for (int i = 0; i < 256; i++)
+    {
+        lookup.at<uchar>(i) = i / div * div + div / 2;
+        cv::LUT(inputImage, lookup, outputImage);
+    }
+}
