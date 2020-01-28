@@ -99,24 +99,53 @@ MainWindow::~MainWindow()
 //    }
 //}
 
-void MainWindow::displayImage(QLabel *outputLabel, const cv::Mat& image)
+void MainWindow::displayImage(QLabel* outputLabel, const QImage& image)
+{
+    outputLabel->setFixedWidth(image.width());
+    outputLabel->setFixedHeight(image.height());
+    /*QImage qimage(image.data,
+        image.cols,
+        image.rows,
+        image.step,
+        QImage::Format_RGB888);*/
+    QSize picSize(outputLabel->width(), outputLabel->height());
+    QPixmap outputQImage = QPixmap::fromImage(image.rgbSwapped()).scaled(picSize, Qt::KeepAspectRatio);
+    outputLabel->setPixmap(outputQImage);
+}
+
+void MainWindow::displayColorImage(QLabel *outputLabel, const cv::Mat& image)
 {
     if (image.empty())return;
-    outputLabel->setFixedWidth(image.cols);
-    outputLabel->setFixedHeight(image.rows);
     QImage qimage(image.data,
         image.cols,
         image.rows,
         image.step,
         QImage::Format_RGB888);
-    QSize picSize(outputLabel->width(),outputLabel->height());
-    QPixmap outputQImage = QPixmap::fromImage(qimage.rgbSwapped()).scaled(picSize, Qt::KeepAspectRatio);
-    outputLabel->setPixmap(outputQImage);
+    displayImage(outputLabel, qimage);
+}
+
+void MainWindow::displayGrayImage(QLabel* outputLabel, const cv::Mat& image)
+{
+    if (image.empty())return;
+
+    QImage qimage = QImage((const unsigned char*)(image.data),
+        image.cols, 
+        image.rows,
+        image.cols * image.channels(), 
+        QImage::Format_Grayscale8);
+    displayImage(outputLabel, qimage);
 }
 
 void MainWindow::displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const QString &text)
 {
-    displayImage(outputLabel, image);
+    if (image.type() == CV_8UC1)
+    {
+        displayGrayImage(outputLabel, image);
+    }
+    else
+    {
+        displayColorImage(outputLabel, image);
+    }    
     outputExplainLabel->setText(text);
 }
 
@@ -164,10 +193,6 @@ void MainWindow::on_histogramRadioButton_pressed()
     else
     {
         currentImage = inputImage;
-    }
-    if (ui->grayscaleCheckBox->isChecked())
-    {
-        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
     }
     if (currentImage.empty())
     {
@@ -237,10 +262,6 @@ void MainWindow::on_edrodeRadioButton_pressed()
     {
         currentImage = inputImage;
     }
-    if (ui->grayscaleCheckBox->isChecked())
-    {
-        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
-    }
     if (currentImage.empty())
     {
         int result = QMessageBox::warning(this,
@@ -289,10 +310,6 @@ void MainWindow::on_dilateRadioButton_pressed()
     {
         currentImage = inputImage;
     }
-    if (ui->grayscaleCheckBox->isChecked())
-    {
-        cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
-    }
     if (currentImage.empty())
     {
         int result = QMessageBox::warning(this,
@@ -340,7 +357,50 @@ void MainWindow::on_restorePushButton_pressed()
 
 void MainWindow::on_colorInversionRadioButton_pressed()
 {
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (currentImage.empty())
+    {
+        int result = QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+        if (result == QMessageBox::Yes)
+        {
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
+            {
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+                    inputImage, codec->toUnicode("原图"));
+                colorReverse(currentImage, outputImage);
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+                    outputImage, codec->toUnicode("反色图像"));
+            }
+            ui->colorInversionRadioButton->setChecked(true);
+        }
 
+    }
+    else
+    {
+        colorReverse(currentImage, outputImage);
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("反色图像"));
+    }
 }
 
 void MainWindow::on_loseColorRadioButton_pressed()
@@ -355,7 +415,6 @@ void MainWindow::on_loseColorRadioButton_pressed()
         {
             currentImage = outputImage;
         }
-
     }
     else
     {
@@ -392,19 +451,53 @@ void MainWindow::on_loseColorRadioButton_pressed()
     }
 }
 
-void MainWindow::on_grayscaleCheckBox_stateChanged(int arg1)
+
+void MainWindow::on_GrayscaleRadioButton_pressed()
 {
-    //if (ui->grayscaleCheckBox->isChecked())
-    //{
-    //    cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
-    //    cv::cvtColor(outputImage, outputImage, CV_BGR2GRAY);
-    //    displayImage(ui->singleOutputLabel, outputImage);
-    //    cv::cvtColor(srcImage, dstImage, cv::COLOR_BGR2GRAY);
-    //    //cv::imshow("test",dstImage);
-    //    img = QImage((const unsigned char*)(dstImage.data), dstImage.cols, dstImage.rows, dstImage.cols * dstImage.channels(),
-    //        QImage::Format_Grayscale8);
+    if (ui->Iterative->isChecked())
+    {
+        if (outputImage.empty())
+        {
+            currentImage = inputImage;
+        }
+        else
+        {
+            currentImage = outputImage;
+        }
+    }
+    else
+    {
+        currentImage = inputImage;
+    }
+    if (currentImage.empty())
+    {
+        int result = QMessageBox::warning(this,
+            "Warning",
+            codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+            QMessageBox::Yes,
+            QMessageBox::No);
+        if (result == QMessageBox::Yes)
+        {
+            inputImage = openImage();
+            currentImage = inputImage;
+            if (!currentImage.empty())
+            {
+                displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+                    inputImage, codec->toUnicode("原图"));
 
-    //}
+                cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
+
+                displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+                    outputImage, codec->toUnicode("灰度图像"));
+            }
+            ui->GrayscaleRadioButton->setChecked(true);
+        }
+
+    }
+    else
+    {
+        cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
+        displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+            outputImage, codec->toUnicode("灰度图像"));
+    }
 }
-
-

@@ -113,3 +113,13 @@ void colorReduce(const cv::Mat& inputImage,cv::Mat& outputImage, int div)
         cv::LUT(inputImage, lookup, outputImage);
     }
 }
+
+void colorReverse(const cv::Mat& inputImage, cv::Mat& outputImage)
+{
+    cv::Mat lookup(1, 256, CV_8U);
+    for (int i = 0; i < 256; i++)
+    {
+        lookup.at<uchar>(i) = 255-i;
+        cv::LUT(inputImage, lookup, outputImage);
+    }
+}

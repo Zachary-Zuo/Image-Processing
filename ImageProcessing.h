@@ -9,6 +9,7 @@
 
 cv::Mat getImageOfHistogram(const cv::Mat& image);
 void colorReduce(const cv::Mat& inputImage, cv::Mat& outputImage, int div = 64);
+void colorReverse(const cv::Mat& inputImage, cv::Mat& outputImage);
 
 #endif // MAINWINDOW_H
 

@@ -71,7 +71,7 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QCheckBox" name="grayscaleCheckBox">
+           <widget class="QRadioButton" name="GrayscaleRadioButton">
             <property name="text">
              <string>灰度化</string>
             </property>
