@@ -149,22 +149,28 @@ cv::Mat getImageOfHistogram(const cv::Mat& image) {
 	}
 }
 
-void colorReduce(const cv::Mat& inputImage, cv::Mat& outputImage, int div)
+void colorReduce(const cv::Mat& inImage, cv::Mat& outImage, int div)
 {
-	cv::Mat lookup(1, 256, CV_8U);
+	cv::Mat lookUp(1, 256, CV_8U);
+	uchar* p = lookUp.data;
 	for (int i = 0; i < 256; i++)
-	{
-		lookup.at<uchar>(i) = i / div * div + div / 2;
-		cv::LUT(inputImage, lookup, outputImage);
-	}
+		p[i] = i / div * div + div / 2;
+	cv::LUT(inImage, lookUp, outImage);
 }
 
-void colorReverse(const cv::Mat& inputImage, cv::Mat& outputImage)
+void colorReverse(const cv::Mat& inImage, cv::Mat& outImage)
 {
-	cv::Mat lookup(1, 256, CV_8U);
+	cv::Mat lookUp(1, 256, CV_8U);
+	uchar* p = lookUp.data;
 	for (int i = 0; i < 256; i++)
-	{
-		lookup.at<uchar>(i) = 255 - i;
-		cv::LUT(inputImage, lookup, outputImage);
-	}
+		p[i] = 255 - i;
+	cv::LUT(inImage, lookUp, outImage);
+
+	//// unknown reason wrong
+	//cv::Mat lookup(1, 256, CV_8U);
+	//for (int i = 0; i < 256; i++)
+	//{
+	//	lookup.at<uchar>(i) = 255 - i;
+	//	cv::LUT(inImage, lookup, outImage);
+	//}
 }

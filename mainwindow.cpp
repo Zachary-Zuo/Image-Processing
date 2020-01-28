@@ -208,7 +208,7 @@ void MainWindow::on_histogramRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
+					currentImage, codec->toUnicode("原图"));
 				outputImage = getImageOfHistogram(currentImage);
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("直方图"));
@@ -219,6 +219,8 @@ void MainWindow::on_histogramRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
 		outputImage = getImageOfHistogram(currentImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("直方图"));
@@ -276,7 +278,7 @@ void MainWindow::on_edrodeRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
+					currentImage, codec->toUnicode("原图"));
 				cv::erode(currentImage, outputImage, cv::Mat());
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("腐蚀图像"));
@@ -286,6 +288,8 @@ void MainWindow::on_edrodeRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
 		cv::erode(currentImage, outputImage, cv::Mat());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("腐蚀图像"));
@@ -324,7 +328,7 @@ void MainWindow::on_dilateRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
+					currentImage, codec->toUnicode("原图"));
 				cv::dilate(currentImage, outputImage, cv::Mat());
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("膨胀图像"));
@@ -335,6 +339,8 @@ void MainWindow::on_dilateRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
 		cv::dilate(currentImage, outputImage, cv::Mat());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("膨胀图像"));
@@ -346,7 +352,7 @@ void MainWindow::on_restorePushButton_pressed()
 	currentImage = inputImage;
 	outputImage = cv::Mat();
 	displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-		inputImage, codec->toUnicode("原图"));
+		currentImage, codec->toUnicode("原图"));
 	ui->histogramRadioButton->setCheckable(false);
 	ui->histogramRadioButton->setCheckable(true);
 	ui->edrodeRadioButton->setCheckable(false);
@@ -386,7 +392,7 @@ void MainWindow::on_colorInversionRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
+					currentImage, codec->toUnicode("原图"));
 				colorReverse(currentImage, outputImage);
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("反色图像"));
@@ -397,6 +403,8 @@ void MainWindow::on_colorInversionRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
 		colorReverse(currentImage, outputImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("反色图像"));
@@ -434,7 +442,7 @@ void MainWindow::on_loseColorRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
+					currentImage, codec->toUnicode("原图"));
 				colorReduce(currentImage, outputImage);
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("减色图像"));
@@ -445,6 +453,8 @@ void MainWindow::on_loseColorRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
 		colorReduce(currentImage, outputImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("减色图像"));
@@ -483,10 +493,19 @@ void MainWindow::on_GrayscaleRadioButton_pressed()
 			if (!currentImage.empty())
 			{
 				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					inputImage, codec->toUnicode("原图"));
-
+					currentImage, codec->toUnicode("原图"));
+				if (currentImage.type() != CV_8UC3)
+				{
+					QMessageBox::warning(this,
+						"Warning",
+						codec->toUnicode("当前图片不是彩色图片，无法进行灰度化，请重新尝试"),
+						QMessageBox::Yes,
+						QMessageBox::No);
+					ui->GrayscaleRadioButton->setChecked(false);
+					return;
+				}
+				
 				cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
-
 				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 					outputImage, codec->toUnicode("灰度图像"));
 			}
@@ -496,6 +515,18 @@ void MainWindow::on_GrayscaleRadioButton_pressed()
 	}
 	else
 	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		if (currentImage.type() != CV_8UC3)
+		{
+			QMessageBox::warning(this,
+				"Warning",
+				codec->toUnicode("当前图片不是彩色图片，无法进行灰度化，请重新尝试"),
+				QMessageBox::Yes,
+				QMessageBox::No);
+			ui->GrayscaleRadioButton->setChecked(false);
+			return;
+		}
 		cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("灰度图像"));
