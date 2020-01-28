@@ -47,6 +47,8 @@ private slots:
 
 	void on_GrayscaleRadioButton_pressed();
 
+    void on_equalizeHistRadioButton_pressed();
+
 private:
 	Ui::MainWindow* ui;
 	void iniUI();

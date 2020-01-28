@@ -532,3 +532,86 @@ void MainWindow::on_GrayscaleRadioButton_pressed()
 			outputImage, codec->toUnicode("灰度图像"));
 	}
 }
+
+void MainWindow::on_equalizeHistRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			inputImage.copyTo(currentImage);
+			//currentImage = inputImage;
+		}
+		else
+		{
+			//currentImage = outputImage;
+			outputImage.copyTo(currentImage);
+		}
+	}
+	else
+	{
+		inputImage.copyTo(currentImage);
+		//currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			inputImage.copyTo(currentImage);
+			//currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				if (currentImage.type() == CV_8UC3)
+				{
+					int equalize = QMessageBox::warning(this,
+						"Warning",
+						codec->toUnicode("当前图片不是灰度图片，无法进行直方图均衡，是否先转化为灰度图？"),
+						QMessageBox::Yes,
+						QMessageBox::No);
+					if (equalize == QMessageBox::Yes)
+					{
+						cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+						displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+							currentImage, codec->toUnicode("原图"));
+					}
+				}
+				cv::equalizeHist(currentImage, outputImage);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("直方图均衡"));
+			}
+			ui->equalizeHistRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		if (currentImage.type() == CV_8UC3)
+		{
+			int equalize = QMessageBox::warning(this,
+				"Warning",
+				codec->toUnicode("当前图片不是灰度图片，无法进行直方图均衡，是否先转化为灰度图？"),
+				QMessageBox::Yes,
+				QMessageBox::No);
+			if (equalize == QMessageBox::Yes)
+			{
+				cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+			}
+		}
+		cv::equalizeHist(currentImage, outputImage);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("直方图均衡"));
+		ui->equalizeHistRadioButton->setChecked(true);
+	}
+}

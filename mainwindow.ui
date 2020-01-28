@@ -113,9 +113,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="equalizeHistRadioButton">
             <property name="text">
-             <string>RadioButton</string>
+             <string>直方图均衡</string>
             </property>
            </widget>
           </item>
