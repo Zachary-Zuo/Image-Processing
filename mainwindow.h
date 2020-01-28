@@ -49,6 +49,8 @@ private slots:
 
     void on_equalizeHistRadioButton_pressed();
 
+    void on_adaptiveThresholdRadioButton_pressed();
+
 private:
 	Ui::MainWindow* ui;
 	void iniUI();

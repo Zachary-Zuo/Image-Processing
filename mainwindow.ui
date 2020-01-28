@@ -120,9 +120,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_3">
+           <widget class="QRadioButton" name="adaptiveThresholdRadioButton">
             <property name="text">
-             <string>RadioButton</string>
+             <string>自适应阈值化</string>
             </property>
            </widget>
           </item>
