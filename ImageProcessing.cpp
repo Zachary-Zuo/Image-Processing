@@ -174,3 +174,12 @@ void colorReverse(const cv::Mat& inImage, cv::Mat& outImage)
 	//	cv::LUT(inImage, lookup, outImage);
 	//}
 }
+
+void morphologyOption(const cv::Mat& input, cv::Mat& output, const int morphOperator,const int morphElem,const int mrophSize)
+{
+	//point 也可以调整
+	cv::Mat element = cv::getStructuringElement(morphElem, cv::Size(2 * mrophSize + 1, 2 * mrophSize + 1), cv::Point(mrophSize, mrophSize));
+	cv::morphologyEx(input, output,
+		morphOperator,
+		element);
+}

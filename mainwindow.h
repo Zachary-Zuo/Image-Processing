@@ -51,6 +51,16 @@ private slots:
 
     void on_adaptiveThresholdRadioButton_pressed();
 
+    void on_openRadioButton_pressed();
+
+    void on_closeRadioButton_pressed();
+
+    void on_gradientRadioButton_pressed();
+
+    void on_hapTopRadioButton_pressed();
+
+    void on_blackHatRadioButton_pressed();
+
 private:
 	Ui::MainWindow* ui;
 	void iniUI();

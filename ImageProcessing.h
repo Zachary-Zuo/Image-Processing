@@ -10,6 +10,7 @@
 cv::Mat getImageOfHistogram(const cv::Mat& image);
 void colorReduce(const cv::Mat& inputImage, cv::Mat& outputImage, int div = 64);
 void colorReverse(const cv::Mat& inputImage, cv::Mat& outputImage);
+void morphologyOption(const cv::Mat& input, cv::Mat& output, const int morphOperator, const int morphElem = 0, const int mrophSize = 1);
 
 #endif // MAINWINDOW_H
 

@@ -71,13 +71,6 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QRadioButton" name="GrayscaleRadioButton">
-            <property name="text">
-             <string>灰度化</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QRadioButton" name="histogramRadioButton">
             <property name="text">
              <string>生成直方图</string>
@@ -113,30 +106,37 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="equalizeHistRadioButton">
+           <widget class="QRadioButton" name="openRadioButton">
             <property name="text">
-             <string>直方图均衡</string>
+             <string>形态学开启运算</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="adaptiveThresholdRadioButton">
+           <widget class="QRadioButton" name="closeRadioButton">
             <property name="text">
-             <string>自适应阈值化</string>
+             <string>形态学关闭运算</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_4">
+           <widget class="QRadioButton" name="gradientRadioButton">
             <property name="text">
-             <string>RadioButton</string>
+             <string>形态学梯度运算</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_5">
+           <widget class="QRadioButton" name="hapTopRadioButton">
             <property name="text">
-             <string>RadioButton</string>
+             <string>形态学顶帽运算</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="blackHatRadioButton">
+            <property name="text">
+             <string>形态学黑帽运算</string>
             </property>
            </widget>
           </item>
@@ -161,34 +161,55 @@
          <attribute name="label">
           <string>灰度图像处理</string>
          </attribute>
-         <widget class="QPushButton" name="grayscalePushButton">
+         <widget class="QRadioButton" name="GrayscaleRadioButton">
           <property name="geometry">
            <rect>
             <x>30</x>
-            <y>40</y>
-            <width>75</width>
-            <height>23</height>
+            <y>10</y>
+            <width>165</width>
+            <height>16</height>
            </rect>
           </property>
           <property name="text">
            <string>灰度化</string>
           </property>
          </widget>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="equalizeHistRadioButton">
           <property name="geometry">
            <rect>
             <x>30</x>
-            <y>90</y>
-            <width>89</width>
+            <y>50</y>
+            <width>182</width>
             <height>16</height>
            </rect>
           </property>
           <property name="text">
-           <string>RadioButton</string>
+           <string>直方图均衡</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="adaptiveThresholdRadioButton">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>100</y>
+            <width>182</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>自适应阈值化</string>
           </property>
          </widget>
         </widget>
         <widget class="QWidget" name="page_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>200</width>
+           <height>280</height>
+          </rect>
+         </property>
          <attribute name="label">
           <string>精细图像处理</string>
          </attribute>
@@ -384,18 +405,18 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="Iterative"/>
+   </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
      <string>文件</string>
     </property>
     <addaction name="Open"/>
     <addaction name="Save"/>
-   </widget>
-   <widget class="QMenu" name="menu_2">
-    <property name="title">
-     <string>设置</string>
-    </property>
-    <addaction name="Iterative"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>

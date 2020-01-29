@@ -6,8 +6,9 @@ void MainWindow::iniUI()
 {
 	setCentralWidget(ui->tabWidget);
 	QVBoxLayout* pageVLayout = new QVBoxLayout;
-	pageVLayout->addWidget(ui->grayscalePushButton);
-	pageVLayout->addWidget(ui->radioButton);
+	pageVLayout->addWidget(ui->GrayscaleRadioButton);
+	pageVLayout->addWidget(ui->equalizeHistRadioButton);
+	pageVLayout->addWidget(ui->adaptiveThresholdRadioButton);
 	ui->page->setLayout(pageVLayout);
 }
 
@@ -703,4 +704,254 @@ void MainWindow::on_adaptiveThresholdRadioButton_pressed()
 			outputImage, codec->toUnicode("自适应阈值分割"));
 	}
 	ui->adaptiveThresholdRadioButton->setChecked(true);
+}
+
+void MainWindow::on_openRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				morphologyOption(currentImage, outputImage, cv::MORPH_OPEN);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("形态学开启图像"));
+			}
+			ui->openRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, cv::MORPH_OPEN);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学开启图像"));
+	}
+}
+
+void MainWindow::on_closeRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				morphologyOption(currentImage, outputImage, cv::MORPH_CLOSE);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("形态学关闭图像"));
+			}
+			ui->closeRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, cv::MORPH_CLOSE);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学关闭图像"));
+	}
+}
+
+void MainWindow::on_gradientRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				morphologyOption(currentImage, outputImage, cv::MORPH_GRADIENT);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("形态学梯度图像"));
+			}
+			ui->gradientRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, cv::MORPH_GRADIENT);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学梯度图像"));
+	}
+}
+
+void MainWindow::on_hapTopRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				morphologyOption(currentImage, outputImage, cv::MORPH_TOPHAT);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("形态学顶帽图像"));
+			}
+			ui->hapTopRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, cv::MORPH_TOPHAT);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学顶帽图像"));
+	}
+}
+
+void MainWindow::on_blackHatRadioButton_pressed()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+					currentImage, codec->toUnicode("原图"));
+				morphologyOption(currentImage, outputImage, cv::MORPH_BLACKHAT);
+				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+					outputImage, codec->toUnicode("形态学黑帽图像"));
+			}
+			ui->blackHatRadioButton->setChecked(true);
+		}
+
+	}
+	else
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, cv::MORPH_BLACKHAT);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学黑帽图像"));
+	}
 }
