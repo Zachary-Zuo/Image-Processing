@@ -67,6 +67,12 @@ private slots:
 
     void on_parameterspinBoxA2_valueChanged(int arg1);
 
+    void on_blurRadioButton_pressed();
+
+    void on_gaussianBlurRadioButton_pressed();
+
+    void on_medianBlurRadioButton_pressed();
+
 private:
 	Ui::MainWindow* ui;
 	void iniUI();

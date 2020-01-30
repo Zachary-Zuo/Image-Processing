@@ -6,9 +6,7 @@ void MainWindow::iniUI()
 {
 	setCentralWidget(ui->tabWidget);
 	QVBoxLayout* pageVLayout = new QVBoxLayout;
-	pageVLayout->addWidget(ui->GrayscaleRadioButton);
-	pageVLayout->addWidget(ui->equalizeHistRadioButton);
-	pageVLayout->addWidget(ui->adaptiveThresholdRadioButton);
+	pageVLayout->addWidget(ui->verticalGroupBox);
 	ui->page->setLayout(pageVLayout);
 }
 
@@ -486,7 +484,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-			outputImage, codec->toUnicode("形态学黑帽图像"));
+			outputImage, codec->toUnicode("形态学图像"));
 	}
 }
 
@@ -507,7 +505,7 @@ void MainWindow::on_parameterspinBoxA1_valueChanged(int arg1)
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-			outputImage, codec->toUnicode("形态学黑帽图像"));
+			outputImage, codec->toUnicode("形态学图像"));
 	}
 }
 
@@ -527,6 +525,45 @@ void MainWindow::on_parameterspinBoxA2_valueChanged(int arg1)
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-			outputImage, codec->toUnicode("形态学黑帽图像"));
+			outputImage, codec->toUnicode("形态学图像"));
 	}
+}
+
+void MainWindow::on_blurRadioButton_pressed()
+{
+	if (checkImgandIterative())
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		cv::blur(currentImage, outputImage, cv::Size(5, 5));
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("低通滤波图像"));
+	}
+	ui->blurRadioButton->setChecked(true);
+}
+
+void MainWindow::on_gaussianBlurRadioButton_pressed()
+{
+	if (checkImgandIterative())
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		cv::GaussianBlur(currentImage, outputImage, cv::Size(5, 5),1.5);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("高斯滤波图像"));
+	}
+	ui->gaussianBlurRadioButton->setChecked(true);
+}
+
+void MainWindow::on_medianBlurRadioButton_pressed()
+{
+	if (checkImgandIterative())
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		cv::medianBlur(currentImage, outputImage, 5);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("中值滤波图像"));
+	}
+	ui->medianBlurRadioButton->setChecked(true);
 }
