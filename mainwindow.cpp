@@ -177,7 +177,7 @@ void MainWindow::on_Open_triggered()
 	}
 }
 
-bool MainWindow::checkColorImgandIterative()
+bool MainWindow::checkImgandIterative()
 {
 	if (ui->Iterative->isChecked())
 	{
@@ -217,53 +217,17 @@ bool MainWindow::checkColorImgandIterative()
 
 void MainWindow::on_histogramRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
 
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				outputImage = getImageOfHistogram(currentImage);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("直方图"));
-			}
-			ui->histogramRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		outputImage = getImageOfHistogram(currentImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("直方图"));
 	}
+	ui->histogramRadioButton->setChecked(true);
 }
 
 void MainWindow::on_Save_triggered()
@@ -285,98 +249,24 @@ void MainWindow::on_Save_triggered()
 		cv::imwrite(fileName.toStdString(), outputImage);
 	}
 }
+
 void MainWindow::on_edrodeRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
 
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				cv::erode(currentImage, outputImage, cv::Mat());
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("腐蚀图像"));
-			}
-			ui->edrodeRadioButton->setChecked(true);
-		}
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		cv::erode(currentImage, outputImage, cv::Mat());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("腐蚀图像"));
 	}
+	ui->edrodeRadioButton->setChecked(true);
 }
 
 void MainWindow::on_dilateRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				cv::dilate(currentImage, outputImage, cv::Mat());
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("膨胀图像"));
-			}
-			ui->dilateRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -384,6 +274,7 @@ void MainWindow::on_dilateRadioButton_pressed()
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("膨胀图像"));
 	}
+	ui->dilateRadioButton->setChecked(true);
 }
 
 void MainWindow::on_restorePushButton_pressed()
@@ -402,95 +293,21 @@ void MainWindow::on_restorePushButton_pressed()
 
 void MainWindow::on_colorInversionRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				colorReverse(currentImage, outputImage);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("反色图像"));
-			}
-			ui->colorInversionRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		colorReverse(currentImage, outputImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("反色图像"));
 	}
+	ui->colorInversionRadioButton->setChecked(true);
 }
 
 void MainWindow::on_loseColorRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				colorReduce(currentImage, outputImage);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("减色图像"));
-			}
-			ui->loseColorRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -498,62 +315,15 @@ void MainWindow::on_loseColorRadioButton_pressed()
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("减色图像"));
 	}
+	ui->loseColorRadioButton->setChecked(true);
 }
 
 
 void MainWindow::on_GrayscaleRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				if (currentImage.type() != CV_8UC3)
-				{
-					QMessageBox::warning(this,
-						"Warning",
-						codec->toUnicode("当前图片不是彩色图片，无法进行灰度化，请重新尝试"),
-						QMessageBox::Yes,
-						QMessageBox::No);
-					ui->GrayscaleRadioButton->setChecked(false);
-					return;
-				}
-				
-				cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("灰度图像"));
-			}
-			ui->GrayscaleRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		if (currentImage.type() != CV_8UC3)
@@ -565,70 +335,20 @@ void MainWindow::on_GrayscaleRadioButton_pressed()
 				QMessageBox::No);
 			ui->GrayscaleRadioButton->setChecked(false);
 			return;
+
+			cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
+			displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+				outputImage, codec->toUnicode("灰度图像"));
 		}
-		cv::cvtColor(currentImage, outputImage, CV_BGR2GRAY);
-		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-			outputImage, codec->toUnicode("灰度图像"));
+		ui->GrayscaleRadioButton->setChecked(true);
 	}
 }
 
 void MainWindow::on_equalizeHistRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			inputImage.copyTo(currentImage);
-			//currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				if (currentImage.type() == CV_8UC3)
-				{
-					int equalize = QMessageBox::warning(this,
-						"Warning",
-						codec->toUnicode("当前图片不是灰度图片，无法进行直方图均衡，是否先转化为灰度图？"),
-						QMessageBox::Yes,
-						QMessageBox::No);
-					if (equalize == QMessageBox::Yes)
-					{
-						cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
-						displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-							currentImage, codec->toUnicode("原图"));
-					}
-				}
-				cv::equalizeHist(currentImage, outputImage);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("直方图均衡"));
-			}
-			ui->equalizeHistRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		if (currentImage.type() == CV_8UC3)
@@ -648,72 +368,14 @@ void MainWindow::on_equalizeHistRadioButton_pressed()
 		cv::equalizeHist(currentImage, outputImage);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("直方图均衡"));
-		ui->equalizeHistRadioButton->setChecked(true);
 	}
+	ui->equalizeHistRadioButton->setChecked(true);
+
 }
 
 void MainWindow::on_adaptiveThresholdRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			inputImage.copyTo(currentImage);
-			//currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				if (currentImage.type() == CV_8UC3)
-				{
-					int equalize = QMessageBox::warning(this,
-						"Warning",
-						codec->toUnicode("当前图片不是灰度图片，无法进行直方图均衡，是否先转化为灰度图？"),
-						QMessageBox::Yes,
-						QMessageBox::No);
-					if (equalize == QMessageBox::Yes)
-					{
-						cv::cvtColor(currentImage, currentImage, CV_BGR2GRAY);
-						displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-							currentImage, codec->toUnicode("原图"));
-					}
-				}
-				cv::adaptiveThreshold(currentImage,
-					outputImage,
-					255,
-					cv::ADAPTIVE_THRESH_MEAN_C,
-					cv::THRESH_BINARY,
-					5,
-					2);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("自适应阈值分割"));
-			}
-			ui->adaptiveThresholdRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -746,45 +408,7 @@ void MainWindow::on_adaptiveThresholdRadioButton_pressed()
 
 void MainWindow::on_openRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				morphologyOption(currentImage, outputImage, cv::MORPH_OPEN);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("形态学开启图像"));
-			}
-			ui->openRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -792,49 +416,13 @@ void MainWindow::on_openRadioButton_pressed()
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学开启图像"));
 	}
+	ui->openRadioButton->setChecked(true);
+
 }
 
 void MainWindow::on_closeRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				morphologyOption(currentImage, outputImage, cv::MORPH_CLOSE);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("形态学关闭图像"));
-			}
-			ui->closeRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -842,149 +430,43 @@ void MainWindow::on_closeRadioButton_pressed()
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学关闭图像"));
 	}
+	ui->closeRadioButton->setChecked(true);
+
 }
 
 void MainWindow::on_gradientRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				morphologyOption(currentImage, outputImage, cv::MORPH_GRADIENT);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("形态学梯度图像"));
-			}
-			ui->gradientRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, cv::MORPH_GRADIENT);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学梯度图像"));
 	}
+	ui->gradientRadioButton->setChecked(true);
+
 }
 
 void MainWindow::on_hapTopRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
+	if (checkImgandIterative())
 	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				morphologyOption(currentImage, outputImage, cv::MORPH_TOPHAT);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("形态学顶帽图像"));
-			}
-			ui->hapTopRadioButton->setChecked(true);
-		}
 
-	}
-	else
-	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, cv::MORPH_TOPHAT);
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学顶帽图像"));
 	}
+	ui->hapTopRadioButton->setChecked(true);
+
 }
 
 void MainWindow::on_blackHatRadioButton_pressed()
 {
-	if (ui->Iterative->isChecked())
-	{
-		if (outputImage.empty())
-		{
-			currentImage = inputImage;
-		}
-		else
-		{
-			currentImage = outputImage;
-		}
-	}
-	else
-	{
-		currentImage = inputImage;
-	}
-	if (currentImage.empty())
-	{
-		int result = QMessageBox::warning(this,
-			"Warning",
-			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
-			QMessageBox::Yes,
-			QMessageBox::No);
-		if (result == QMessageBox::Yes)
-		{
-			inputImage = openImage();
-			currentImage = inputImage;
-			if (!currentImage.empty())
-			{
-				displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
-					currentImage, codec->toUnicode("原图"));
-				morphologyOption(currentImage, outputImage, cv::MORPH_BLACKHAT);
-				displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
-					outputImage, codec->toUnicode("形态学黑帽图像"));
-			}
-			ui->blackHatRadioButton->setChecked(true);
-		}
-
-	}
-	else
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -992,12 +474,13 @@ void MainWindow::on_blackHatRadioButton_pressed()
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学黑帽图像"));
 	}
+	ui->blackHatRadioButton->setChecked(true);
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
 	if (ui->comboBox->currentIndex() == 0)return;
-	if (checkColorImgandIterative())
+	if (checkImgandIterative())
 	{
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
@@ -1010,7 +493,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 void MainWindow::on_parameterspinBoxA1_valueChanged(int arg1)
 {
 	if (ui->parameterspinBoxA1->value() > 3)return;
-	if (checkColorImgandIterative())
+	if (checkImgandIterative())
 	{
 		if (ui->comboBox->currentIndex() == 0)
 		{
@@ -1030,7 +513,7 @@ void MainWindow::on_parameterspinBoxA1_valueChanged(int arg1)
 
 void MainWindow::on_parameterspinBoxA2_valueChanged(int arg1)
 {
-	if (checkColorImgandIterative())
+	if (checkImgandIterative())
 	{
 		if (ui->comboBox->currentIndex() == 0)
 		{

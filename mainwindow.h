@@ -81,7 +81,7 @@ private:
 	cv::Mat openImage();
 	QTextCodec* codec = QTextCodec::codecForName("GBK");
 
-	bool MainWindow::checkColorImgandIterative();
+	bool MainWindow::checkImgandIterative();
 
 	//void loadSettings();
 	//void saveSettings();
