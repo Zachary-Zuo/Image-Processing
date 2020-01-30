@@ -177,6 +177,44 @@ void MainWindow::on_Open_triggered()
 	}
 }
 
+bool MainWindow::checkColorImgandIterative()
+{
+	if (ui->Iterative->isChecked())
+	{
+		if (outputImage.empty())
+		{
+			currentImage = inputImage;
+		}
+		else
+		{
+			currentImage = outputImage;
+		}
+	}
+	else
+	{
+		currentImage = inputImage;
+	}
+	if (currentImage.empty())
+	{
+		int result = QMessageBox::warning(this,
+			"Warning",
+			codec->toUnicode("您还未打开图片，是否现在打开需要处理的图片?"),
+			QMessageBox::Yes,
+			QMessageBox::No);
+		if (result == QMessageBox::Yes)
+		{
+			inputImage = openImage();
+			currentImage = inputImage;
+			if (!currentImage.empty())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	return true;
+}
+
 void MainWindow::on_histogramRadioButton_pressed()
 {
 	if (ui->Iterative->isChecked())
@@ -951,6 +989,60 @@ void MainWindow::on_blackHatRadioButton_pressed()
 		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
 			currentImage, codec->toUnicode("原图"));
 		morphologyOption(currentImage, outputImage, cv::MORPH_BLACKHAT);
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学黑帽图像"));
+	}
+}
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+	if (ui->comboBox->currentIndex() == 0)return;
+	if (checkColorImgandIterative())
+	{
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学黑帽图像"));
+	}
+}
+
+void MainWindow::on_parameterspinBoxA1_valueChanged(int arg1)
+{
+	if (ui->parameterspinBoxA1->value() > 3)return;
+	if (checkColorImgandIterative())
+	{
+		if (ui->comboBox->currentIndex() == 0)
+		{
+			QMessageBox::warning(this,
+				"Warning",
+				codec->toUnicode("请选择需要进行的操作"),
+				QMessageBox::Yes,
+				QMessageBox::No);
+		}
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
+		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
+			outputImage, codec->toUnicode("形态学黑帽图像"));
+	}
+}
+
+void MainWindow::on_parameterspinBoxA2_valueChanged(int arg1)
+{
+	if (checkColorImgandIterative())
+	{
+		if (ui->comboBox->currentIndex() == 0)
+		{
+			QMessageBox::warning(this,
+				"Warning",
+				codec->toUnicode("请选择需要进行的操作"),
+				QMessageBox::Yes,
+				QMessageBox::No);
+		}
+		displayImageAndLabel(ui->singleOriginLabel, ui->singleOriginExplainLabel,
+			currentImage, codec->toUnicode("原图"));
+		morphologyOption(currentImage, outputImage, ui->comboBox->currentIndex() + 1, ui->parameterspinBoxA1->value(), ui->parameterspinBoxA2->value());
 		displayImageAndLabel(ui->singleOutputLabel, ui->singleOutputExplainLabel,
 			outputImage, codec->toUnicode("形态学黑帽图像"));
 	}

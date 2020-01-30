@@ -213,6 +213,125 @@
          <attribute name="label">
           <string>精细图像处理</string>
          </attribute>
+         <widget class="QGroupBox" name="verticalGroupBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>171</width>
+            <height>131</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>形态学变换</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QComboBox" name="comboBox">
+             <item>
+              <property name="text">
+               <string>无操作</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>形态学开启</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>形态学关闭</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>形态学梯度</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>形态学黑帽</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>形态学顶帽</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="parameterLabelA1">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>核的形状</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="parameterspinBoxA1">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximum">
+                <number>2</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="parameterLabelA2">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>核的大小</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="parameterspinBoxA2">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>190</y>
+            <width>54</width>
+            <height>12</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -411,14 +530,6 @@
     </property>
     <addaction name="Iterative"/>
    </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>文件</string>
-    </property>
-    <addaction name="Open"/>
-    <addaction name="Save"/>
-   </widget>
-   <addaction name="menu"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

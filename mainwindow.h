@@ -61,6 +61,12 @@ private slots:
 
     void on_blackHatRadioButton_pressed();
 
+    void on_comboBox_currentIndexChanged(int index);
+
+    void on_parameterspinBoxA1_valueChanged(int arg1);
+
+    void on_parameterspinBoxA2_valueChanged(int arg1);
+
 private:
 	Ui::MainWindow* ui;
 	void iniUI();
@@ -74,6 +80,8 @@ private:
 	void displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const QString& text);
 	cv::Mat openImage();
 	QTextCodec* codec = QTextCodec::codecForName("GBK");
+
+	bool MainWindow::checkColorImgandIterative();
 
 	//void loadSettings();
 	//void saveSettings();
