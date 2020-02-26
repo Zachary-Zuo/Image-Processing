@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="horizontalTabWidgetPage1">
      <attribute name="title">
@@ -175,8 +175,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>200</width>
-           <height>280</height>
+           <width>100</width>
+           <height>30</height>
           </rect>
          </property>
          <attribute name="label">
@@ -294,8 +294,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>200</width>
-           <height>280</height>
+           <width>100</width>
+           <height>30</height>
           </rect>
          </property>
          <attribute name="label">
@@ -372,18 +372,22 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QOpencvView" name="singleOriginOpencvView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="minimumSize">
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>0</width>
-            <height>20</height>
+            <width>20</width>
+            <height>40</height>
            </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="singleOriginLabel">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -429,23 +433,40 @@
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QOpencvView" name="singleOutputOpencvView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="minimumSize">
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>0</width>
-            <height>20</height>
+            <width>20</width>
+            <height>40</height>
            </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="singleOutputLabel">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -491,7 +512,33 @@
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -499,6 +546,16 @@
      <attribute name="title">
       <string>多图片处理</string>
      </attribute>
+     <widget class="QOpencvView" name="openGLWidget">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>70</y>
+        <width>300</width>
+        <height>200</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

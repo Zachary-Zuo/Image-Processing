@@ -80,10 +80,6 @@ private:
 	cv::Mat outputImage;
 	cv::Mat currentImage;
 	cv::Mat inputGrayImage;
-	void displayImage(QLabel* outputLabel, const QImage& image);
-	void displayGrayImage(QLabel* outputLabel, const cv::Mat& image);
-	void displayColorImage(QLabel* outputLabel, const cv::Mat& image);
-	void displayImageAndLabel(QLabel* outputLabel, QLabel* outputExplainLabel, const cv::Mat& image, const QString& text);
 	cv::Mat openImage();
 	QTextCodec* codec = QTextCodec::codecForName("GBK");
 
