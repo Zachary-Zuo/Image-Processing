@@ -85,9 +85,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="QOpencvView.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="MatView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ImageProcessing.qrc" />
@@ -99,7 +101,9 @@
     <QtMoc Include="mainwindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="QOpencvView.h" />
     <ClInclude Include="ImageProcessing.h" />
+    <QtMoc Include="MatView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

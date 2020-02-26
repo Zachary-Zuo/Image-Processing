@@ -8,6 +8,12 @@
     <ClCompile Include="ImageProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MatView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QOpencvView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -43,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MatView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QOpencvView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
